@@ -1,0 +1,6 @@
+---
+openwrt_install_recommended_packages: false
+
+openwrt_config_cron_contents: |
+  # Molecule tests
+  0 * * * *  logger Molecule test cron

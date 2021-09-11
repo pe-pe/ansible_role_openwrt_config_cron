@@ -1,0 +1,25 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  vars_files:
+    - vars.yml
+
+  roles:
+    - role: gekmihesg.openwrt
+
+  tasks:
+    # cron test
+    - name: Check whether crontab entry exists
+      command: "crontab -l"
+      register: crontab_list_result
+      failed_when:
+        - not "Molecule test cron" in crontab_list_result.stdout
+      changed_when: false
+
+    - name: Check whether cron is running
+      command: "ps"
+      register: ps_result
+      failed_when:
+        - not "/usr/sbin/crond" in ps_result.stdout
+      changed_when: false
